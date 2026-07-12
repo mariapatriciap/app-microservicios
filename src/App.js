@@ -2,12 +2,24 @@ import './App.css';
 
 function App() {
   const cursos = [
-    'Aplicaciones para Ambientes Distribuidos',
-    'Desarrollo de Aplicaciones',
-    'Programación II',
-    'Bases de Datos'
-  ];
+  { id: 'curso-001', nombre: 'Aplicaciones para Ambientes Distribuidos' },
+  { id: 'curso-002', nombre: 'Desarrollo de Aplicaciones' },
+  { id: 'curso-003', nombre: 'Programación II' },
+  { id: 'curso-004', nombre: 'Bases de Datos' }
+];
+const consultarCurso = async (cursoId) => {
+  try {
+    const respuesta = await fetch(
+      `https://bhgfuqtbtg.execute-api.us-east-2.amazonaws.com/cursos/${cursoId}`
+    );
 
+    const curso = await respuesta.json();
+
+    alert(`Curso seleccionado: ${curso.nombre}`);
+  } catch (error) {
+    alert('No se pudo consultar el curso');
+  }
+};
   return (
     <div className="App">
       <header className="navbar">
@@ -26,8 +38,10 @@ function App() {
           {cursos.map((curso, index) => (
             <div className="tarjeta" key={index}>
               <div className="icono">📘</div>
-              <h3>{curso}</h3>
-              <button>Seleccionar curso</button>
+              <h3>{curso.nombre}</h3>
+              <button onClick={() => consultarCurso(curso.id)}>
+              Seleccionar curso
+              </button>
             </div>
           ))}
         </section>
